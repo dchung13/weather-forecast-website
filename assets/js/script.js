@@ -1,5 +1,5 @@
 var API_KEY = "b6adf15dc030ad73e699b782593eb736";
-var cityName = document.querySelector(".city-text").value; //$(".city-text").();
+var cityName = document.querySelector(".city-text").value;
 var currentDay = dayjs();
 
 function getCurrentForecast(lat, long) {
@@ -36,6 +36,7 @@ function getCity(cityName) {
             return response.json();
         })
         .then(function(response){
+            cityName = document.querySelector(".city-text").value;
             var lat = data[0].lat;
             var long = data[0].long;
             console.log(lat);
@@ -74,10 +75,10 @@ function getFutureForecast(lat, long) {
 
 
 $("#city-btn").on("click", function() {
+    cityName = document.querySelector(".city-text").value;
     console.log(cityName);
     getCity(cityName);
     
-    getCurrentForecast();
     //create city button
     var addCityBtn = $("<button>");
     addCityBtn.text(cityName);
@@ -86,5 +87,7 @@ $("#city-btn").on("click", function() {
     
     $("#btn-storage").append(addCityBtn);
     
+    getCurrentForecast();
+    getFutureForecast();
 
 });
