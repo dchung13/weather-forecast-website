@@ -28,22 +28,6 @@ function getCurrentForecast(lat, long) {
         });  
 }
 
-function getCity(cityName) {
-    var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&limit=1&appid=${API_KEY}`
-    fetch(requestUrl)
-
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(response){
-            var lat = response.coord.lat;
-            var long = response.coord.lon;
-            getCurrentForecast(lat, long);
-            getFutureForecast(lat, long);
-        });
-        
-}
-
 function getFutureForecast(lat, long) {
     var requestUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=imperial&appid=${API_KEY}`
 
@@ -71,6 +55,24 @@ function getFutureForecast(lat, long) {
             }
         });  
 }
+
+function getCity(cityName) {
+    var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&limit=1&appid=${API_KEY}`
+    fetch(requestUrl)
+
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(response){
+            var lat = response.coord.lat;
+            var long = response.coord.lon;
+            getCurrentForecast(lat, long);
+            getFutureForecast(lat, long);
+        });
+        
+}
+
+
 
 
 $("#city-btn").on("click", function() {
