@@ -13,3 +13,11 @@ add eventlistener to the user input to search
 add eventlistener to the created buttons to bring up previous weathers
     ensure buttons are selected as not active when not selected
     current button should be active when selected
+store buttons that have previously been searched in localStorage
+retrive on screen refresh
+
+if a previously searched city is already present, do nothing
+check array for stringified name
+
+geocoding api on the weather app use to pass a city and return the latitude/longitude
+    use apicall
