@@ -1,5 +1,6 @@
 var API_KEY = "b6adf15dc030ad73e699b782593eb736";
 var cityName = document.querySelector(".city-text").value; //$(".city-text").();
+var currentDay = dayjs();
 
 function getCurrentForecast(lat, long) {
     var requestUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=imperial&appid=${API_KEY}`
@@ -13,7 +14,7 @@ function getCurrentForecast(lat, long) {
             //generate the card for the current day forecast
             currentWeather.addClass("current-day");
             //creates the header for the current day forecast and attaches to the card
-            var currentDayHead = $("<h2>").text(`${data.name} on ${dayjs().format("M D, YYYY")}`);
+            var currentDayHead = $("<h2>").text(`${data.name} on ${currentDay.format("M D, YYYY")}`);
             currentWeather.append(currentDayHead);
             //create the img for the forecast
             var iconCode = data.weather[0].icon;
@@ -53,10 +54,10 @@ function getFutureForecast(lat, long) {
 
             for (i=1; i < 6; i++) {
                 var futureWeatherForecast = $("#weather-forecast-"+[i]);
-                
-                futureWeatherForecast.addClass("current-day");
-                
-                var currentDayHead = $("<h2>").text(`${data.name} on ${dayjs().format("M D, YYYY")}`);
+                var futureDay = currentDay.add(i, "day");
+
+                ;
+                var currentDayHead = $("<h2>").text(`${data.name} on ${futureDay.format("M D, YYYY")}`);
                 futureWeatherForecast.append(currentDayHead);
                 
                 var iconCode = data.weather[i].icon;
