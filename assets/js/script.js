@@ -14,17 +14,17 @@ function getCurrentForecast(lat, long) {
             //generate the card for the current day forecast
             currentWeather.addClass("current-day");
             //creates the header for the current day forecast and attaches to the card
-            var currentDayHead = $("<h2>").text(`${data.name} on ${currentDay.format("M D, YYYY")}`);
+            var currentDayHead = $("<h2>").text(`${data.name} on ${currentDay.format("M/D/YYYY")}`);
             currentWeather.append(currentDayHead);
             //create the img for the forecast
             var iconCode = data.weather[0].icon;
             var icon = $("<img>").attr("src", `https://openweathermap.org/img/w/${iconCode}.png`);
             currentWeather.append(icon);
             //create the areas for temperature, wind, and humidity
-            var currentTemp = $("<p>").html(`Temp: {data.main.temp}&deg;F`);
+            var currentTemp = $("<p>").html(`Temp: ${data.main.temp}&deg;F`);
             var currentWind = $("<p>").text(`Wind: ${data.wind.speed}mph`);
             var currentHumidity = $("<p>").text(`Humidity: ${data.main.humidity}%`);
-            currentWeatherOutput.append(currentTemp, currentWind, currentHumidity);
+            currentWeather.append(currentTemp, currentWind, currentHumidity);
         });  
 }
 
@@ -36,12 +36,12 @@ function getCity(cityName) {
             return response.json();
         })
         .then(function(response){
-            cityName = document.querySelector(".city-text").value;
-            var lat = data[0].lat;
-            var long = data[0].long;
-            console.log(lat);
-            return lat, long;
+            var lat = response.coord.lat;
+            var long = response.coord.lon;
+            getCurrentForecast(lat, long);
+            getFutureForecast(lat, long);
         });
+        
 }
 
 function getFutureForecast(lat, long) {
@@ -57,15 +57,14 @@ function getFutureForecast(lat, long) {
                 var futureWeatherForecast = $("#weather-forecast-"+[i]);
                 var futureDay = currentDay.add(i, "day");
 
-                ;
-                var currentDayHead = $("<h2>").text(`${data.name} on ${futureDay.format("M D, YYYY")}`);
-                futureWeatherForecast.append(currentDayHead);
+                var futureDayHead = $("<h2>").text(`${data.name} on ${futureDay.format("M/D/YYYY")}`);
+                futureWeatherForecast.append(futureDayHead);
                 
                 var iconCode = data.weather[i].icon;
                 var icon = $("<img>").attr("src", `https://openweathermap.org/img/w/${iconCode}.png`);
                 futureWeatherForecast.append(icon);
                 
-                var currentTemp = $("<p>").html(`Temp: {data.main.temp}&deg;F`);
+                var currentTemp = $("<p>").html(`Temp: ${data.main.temp}&deg;F`);
                 var currentWind = $("<p>").text(`Wind: ${data.wind.speed}mph`);
                 var currentHumidity = $("<p>").text(`Humidity: ${data.main.humidity}%`);
                 futureWeatherForecast.append(currentTemp, currentWind, currentHumidity);
@@ -76,8 +75,11 @@ function getFutureForecast(lat, long) {
 
 $("#city-btn").on("click", function() {
     cityName = document.querySelector(".city-text").value;
-    console.log(cityName);
+    
+     
     getCity(cityName);
+    
+    
     
     //create city button
     var addCityBtn = $("<button>");
@@ -87,7 +89,7 @@ $("#city-btn").on("click", function() {
     
     $("#btn-storage").append(addCityBtn);
     
-    getCurrentForecast();
-    getFutureForecast();
+    
+    
 
 });
